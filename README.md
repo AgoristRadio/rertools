@@ -1,10 +1,18 @@
 # Don't even think about using this yet. Not even Alpha. But wanted to start the repo.
 
-# TODO write up the README
 
 # Rertools
 
-TODO: Write a gem description
+Reality Exploit Roundtable Automated Full Stack Podcast Publishing Tool
+###
+
+Given an episodes mp3 file, say realityexploitroundtable-EP010.mp3 with no id3v2 metadata
+And shownotes of https://github.com/AgoristRadio/RealityExploitRoundtable/blob/master/EP010.md
+When you run the command line tool: "rer publish realityexploitroundtable-EP010.mp3"
+Then the episdode show notes information is downloaded and parsed for metadata
+And the metadata is injected into the MP3's id3v2 tags
+And the metadata & show notes are injected into a new Episode Post on the RER Website
+And the MP3 is uploaded to the public website
 
 ## Installation
 
@@ -22,7 +30,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+rer help
 
 ## Contributing
 
