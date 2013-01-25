@@ -6,11 +6,18 @@ module Rertools
       @remote_url_host = "agoristradio.com"
       @remote_url_path = "/xmlrpc.php"
       @remote_url = "http://#{@remote_url_host}/#{@remote_url_path}"
-      secret_config=YAML.load_file("#{ENV['HOME']}/.rertools/config.yml")["production"]
-      @remote_username = secret_config[:username]
-      @remote_password = secret_config[:password]
+      load_secret_configs
+      @remote_username = @secret_config["username"]
+      @remote_password = @secret_config["password"]
     end
 
+    def load_secret_configs
+      @secret_config=YAML.load_file(secret_config_filename)["production"]
+    end
+
+    def secret_config_filename
+      "#{ENV['HOME']}/.rertools/config.yml"
+    end
 
     def default_show_notes_source
       "github"
