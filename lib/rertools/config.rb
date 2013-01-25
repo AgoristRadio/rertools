@@ -6,10 +6,9 @@ module Rertools
       @remote_url_host = "agoristradio.com"
       @remote_url_path = "/xmlrpc.php"
       @remote_url = "http://#{@remote_url_host}/#{@remote_url_path}"
-      @remote_username = ''
-      @remote_password = ''
-      # TODO remove if truly depreciated
-      # @remote = Wordpress.new(@remote_url, @remote_username, @remote_password)
+      secret_config=YAML.load_file("#{ENV['HOME']}/.rertools/config.yml")["production"]
+      @remote_username = secret_config[:username]
+      @remote_password = secret_config[:password]
     end
 
 
