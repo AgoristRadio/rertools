@@ -10,6 +10,19 @@ class Rer < Thor
     puts "pong"
   end
 
+  desc "publish MP3_FILENAME", "Injects shownotes metadata into an mp3 file id3v2 tags, uploads the mp3, and posts the podcast on the website.
+NOTE: [MP3_FILENAME] must be in the format of: realityexploitroundtable-EP[EPISODE_NUMBER].mp3"
+  def publish(mp3_filename)
+    current_path = Dir.pwd #File.dirname(__FILE__)
+    full_file_path = current_path + "/" + mp3_filename
+    episode_url = Rertools::Episode.new(full_file_path).publish
+    puts "OK: Episode URL is #{episode_url}"
+  end
+
+
+  # old crap
+
+=begin
   desc "shownotes_metadata [EPISODE_NUMBER]", "Display shownotes metadata scraped off the github page for a specific episode."
   def shownotes_metadata(episode_number)
     Rertools::Cli.new.shownotes_metadata(episode_number)
@@ -20,10 +33,7 @@ class Rer < Thor
     Rertools::Cli.new.inject_metadata(episode_number, mp3_filename)
   end
 
-  desc "publish [EPISODE_NUMBER] [MP3_FILENAME]", "Injects shownotes metadata into an mp3 file id3v2 tags, uploads the mp3, and posts the podcast on the website."
-  def publish(episode_number, mp3_filename)
-    Rertools::Cli.new.publish(episode_number, mp3_filename)
-  end
+=end
 
 
 

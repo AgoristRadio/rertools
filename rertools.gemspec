@@ -8,9 +8,9 @@ Gem::Specification.new do |gem|
   gem.version       = Rertools::VERSION
   gem.authors       = ["Hiro White"]
   gem.email         = ["hiro@agoristradio.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.homepage      = ""
+  gem.description   = %q{Reality Exploit Roundtable Full stack episode publishing.}
+  gem.summary       = %q{Command line tool: retrieve show notes, inject mp3 id3v2 tags, upload file, post episode info to website.}
+  gem.homepage      = "https://github.com/AgoristRadio/rertools"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }

@@ -14,12 +14,23 @@ module Rertools
     def post
       send_post
       update_post
-      true #no exceptions happened, so I guess success. yuck.
+      true # TODO: better error handling, for now, no exceptions happened, so I guess success. yuck.
     end
 
     def update_post
       mechanize_login
       mechanize_episode_update
+    end
+
+    def uploaded_post_exists?
+      @mechanize.get(@config.episode_frontpage_url) do |frontpage|
+        needle = @show_notes.topics.join(", ")
+        return !!(frontpage.body.match(needle))
+      end
+    end
+
+    def episode_url
+      @config.post_preview_base_url + @post_id
     end
 
     private
@@ -62,33 +73,30 @@ module Rertools
       mp3 = Rertools::Mp3.new(@mp3_filename)
 
       @post = {:title => mp3.title, :description => get_and_render_show_notes,
-              :mt_keywords => show_notes_tags,
-              :categories => @config.default_show_categories}
+               :mt_keywords => show_notes_tags,
+               :categories => @config.default_show_categories}
       send_post_low_level
     end
 
     def send_post_low_level
       connection = XMLRPC::Client.new(@config.remote_url_host, @config.remote_url_path)
-      @post_id = connection.call('metaWeblog.newPost', 1, @config.remote_username, @config.remote_password, @post, true)
+      @post_id = connection.call(
+          'metaWeblog.newPost', 1,
+          @config.remote_username, @config.remote_password, @post, @config.post_as_public)
     end
 
     def get_and_render_show_notes
-      raw_show_notes = Rertools::ShowNotesDownloader.new.download_full(episode_number_from_filename)
-      raw_show_notes = strip_out_yaml_markdown_delimiters(raw_show_notes)
-      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML,:autolink => true, :space_after_headers => true)
-      md.render(raw_show_notes)
+      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
+      md.render(@show_notes.body)
     end
 
     def show_notes_tags
       @show_notes.tags.join(", ")
     end
 
-    def strip_out_yaml_markdown_delimiters(raw_show_notes)
-      raw_show_notes.gsub("---\n","")
-    end
-
     def episode_number_from_filename
       @mp3_filename.split("/").last.match(/\d\d\d/)[0].to_i
     end
+
   end
 end

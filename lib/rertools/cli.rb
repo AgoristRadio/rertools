@@ -5,6 +5,7 @@ module Rertools
       inject_metadata(episode_number, mp3_filename)
       @uploader = Rertools::Mp3Uploader.new(Rertools::Config.new, mp3_filename)
       @uploader.upload
+
     end
 
     def inject_metadata(episode_number, mp3_filename)

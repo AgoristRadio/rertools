@@ -1,3 +1,4 @@
+@rerlibs
 @shownotes
 Feature: Show notes details
   In order to automate the publishing of a podcast episode
@@ -5,7 +6,8 @@ Feature: Show notes details
   I want to be able to extract all show detail info from the show notes
 
   Scenario: Parsing static show notes for detailed info
-    Given show notes with body
+    Given an episode filename of "realityexploitroundtable-EP010.mp3"
+    When the show notes are retrieved from source "raw" with body
     """
     ---
     Show: Reality Exploit Roundtable
@@ -28,17 +30,17 @@ Feature: Show notes details
     And the "show" should be "Reality Exploit Roundtable"
     And the "episode" should be "10"
     And the "panelists" should include "Hiro"
-    And the "tags" should include "drones"
     And the "date" should be "Sept 24, 2012"
     And the "topics" should include "MEK gets on Terrorist Buddy List"
-
+    And the "tags" should include "drones"
 
   Scenario: Parsing downloaded show notes for detailed info
-    Given an episode number of "10"
-    When the show notes are retrieved from github
+    Given an episode filename of "realityexploitroundtable-EP010.mp3"
+    When the show notes are retrieved from source "github"
     Then the "moderator" should be "voodoo"
     And the "show" should be "Reality Exploit Roundtable"
     And the "episode" should be "10"
     And the "panelists" should include "Hiro"
     And the "date" should be "Sept 24, 2012"
     And the "topics" should include "MEK gets on Terrorist Buddy List"
+    And the "tags" should include "drones"

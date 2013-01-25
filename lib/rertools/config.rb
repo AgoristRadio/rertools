@@ -6,15 +6,20 @@ module Rertools
       @remote_url_host = "agoristradio.com"
       @remote_url_path = "/xmlrpc.php"
       @remote_url = "http://#{@remote_url_host}/#{@remote_url_path}"
-      # TODO use best practices to get user/pass from environment etc
-      @remote_username = 'your_username'
-      @remote_password = 'your_password'
-      @remote = Wordpress.new(@remote_url, @remote_username, @remote_password)
+      @remote_username = 'admin'
+      @remote_password = 'c6ee2cs4Uc'
+      # TODO remove if truly depreciated
+      # @remote = Wordpress.new(@remote_url, @remote_username, @remote_password)
     end
 
-    def post_as_public
-      0
+
+    def default_show_notes_source
+      "github"
     end
+
+     def post_as_public
+       0
+     end
 
     def ssh_user_host
       "www@agoristradio.com"
@@ -36,6 +41,10 @@ module Rertools
       "http://agoristradio.com/wp-admin/post.php?action=edit&post="
     end
 
+    def episode_frontpage_url
+      "http://agoristradio.com/"
+    end
+
     def episode_edit_login_url
       "http://agoristradio.com/wp-login.php"
     end
@@ -46,6 +55,14 @@ module Rertools
 
     def default_show_categories
       ['Reality Exploit Roundtable']
+    end
+
+    def testing_support_path
+      "features/support/"
+    end
+
+    def post_preview_base_url
+       "http://agoristradio.com/?preview=true&p="
     end
 
   end

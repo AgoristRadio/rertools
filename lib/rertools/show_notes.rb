@@ -1,20 +1,19 @@
 module Rertools
 
   class ShowNotes
-    def initialize(episode_number, raw_show_notes=nil)
+    def initialize(episode_number, show_notes_source)
       @episode_number = episode_number
-
-      if !raw_show_notes
-         @raw_show_notes = Rertools::ShowNotesDownloader.new.download(@episode_number)
-      else
-        @raw_show_notes = raw_show_notes
-      end
-
+      @raw_show_notes, @body = show_notes_source.get(@episode_number)
+      #@show_notes_body = show_notes_source.get_full(@episode_number)
       parse
     end
 
     def parse
       @parsed_data = Psych.load(@raw_show_notes)
+    end
+
+    def body
+      @body
     end
 
     def moderator
